@@ -1,0 +1,46 @@
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.csproj.AssemblyReference.cache
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.csproj.SuggestedBindingRedirects.cache
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.csproj.GenerateResource.cache
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.csproj.CoreCompileInputs.cache
+D:\chess-complete\MyChessGame\MyChessGame\bin\Debug\Chess.exe.config
+D:\chess-complete\MyChessGame\MyChessGame\bin\Debug\Chess.exe
+D:\chess-complete\MyChessGame\MyChessGame\bin\Debug\Chess.pdb
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.About.resources
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.AISpecifications.resources
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.ChessBoard.resources
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.NewGame.resources
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.Properties.Resources.resources
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.Rules.resources
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.exe
+D:\chess-complete\MyChessGame\MyChessGame\obj\Debug\Chess.pdb
+D:\chess-complete\ChessGame\Chess\bin\Debug\Chess.exe.config
+D:\chess-complete\ChessGame\Chess\bin\Debug\Chess.exe
+D:\chess-complete\ChessGame\Chess\bin\Debug\Chess.pdb
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.csproj.AssemblyReference.cache
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.csproj.SuggestedBindingRedirects.cache
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.About.resources
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.AISpecifications.resources
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.ChessBoard.resources
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.NewGame.resources
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.Properties.Resources.resources
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.Rules.resources
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.csproj.GenerateResource.cache
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.exe
+D:\chess-complete\ChessGame\Chess\obj\Debug\Chess.pdb
+D:\Chess 2022\chess-complete\ChessGame\Chess\bin\Debug\Chess.exe.config
+D:\Chess 2022\chess-complete\ChessGame\Chess\bin\Debug\Chess.exe
+D:\Chess 2022\chess-complete\ChessGame\Chess\bin\Debug\Chess.pdb
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.csproj.AssemblyReference.cache
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.csproj.SuggestedBindingRedirects.cache
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.About.resources
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.AISpecifications.resources
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.ChessGame.resources
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.NewGame.resources
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.Properties.Resources.resources
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.Rules.resources
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.csproj.GenerateResource.cache
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.exe
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.pdb
+D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.PromotePieceChoice.resources
