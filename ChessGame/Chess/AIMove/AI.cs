@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace Chess.AIMove
@@ -110,6 +111,7 @@ namespace Chess.AIMove
                             newBoard[enPassantDetails.Y][enPassantDetails.X] = null;
                             ChessGame.pieceName[] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);
                             PictureBox selectedPiece = newBoard[Y][X];
+                            newPieceStateMapping[selectedPiece].HasMoved = true;
                             int totalBoardState = currentBoardState + value;
                             foreach (ChessGame.pieceName currPiece in allPieces)
                             {
@@ -143,6 +145,7 @@ namespace Chess.AIMove
                     setNewBoard(board, newBoard, y, x, Y, X);
                     ChessGame.pieceName [] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);
                     PictureBox selectedPiece = newBoard[Y][X];
+                    newPieceStateMapping[selectedPiece].HasMoved = true;
                     EnPassantDetails enPassantable = new EnPassantDetails(Y, X, selectedPiece);
                     foreach (ChessGame.pieceName currPiece in allPieces)
                     {
@@ -173,6 +176,7 @@ namespace Chess.AIMove
                         setNewBoard(board, newBoard, y, x, Y, X); // create new board object to be used as parameter to call minimax function
                         ChessGame.pieceName[] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);                     
                         PictureBox selectedPiece = newBoard[Y][X];
+                        newPieceStateMapping[selectedPiece].HasMoved = true;
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
                             if (currPiece != ChessGame.pieceName.Pawn)
@@ -201,6 +205,7 @@ namespace Chess.AIMove
                         setNewBoard(board, newBoard, y, x, Y, X);
                         ChessGame.pieceName[] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);
                         PictureBox selectedPiece = newBoard[Y][X];
+                        newPieceStateMapping[selectedPiece].HasMoved = true;
                         int totalBoardState = currentBoardState + value;
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
@@ -234,6 +239,7 @@ namespace Chess.AIMove
                         setNewBoard(board, newBoard, y, x, Y, X);
                         ChessGame.pieceName[] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);
                         PictureBox selectedPiece = newBoard[Y][X];
+                        newPieceStateMapping[selectedPiece].HasMoved = true;
                         int totalBoardState = currentBoardState + value;
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
@@ -276,6 +282,7 @@ namespace Chess.AIMove
                             newBoard[enPassantDetails.Y][enPassantDetails.X] = null;
                             ChessGame.pieceName[] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);
                             PictureBox selectedPiece = newBoard[Y][X];
+                            newPieceStateMapping[selectedPiece].HasMoved = true;
                             int totalBoardState = currentBoardState - value;
                             foreach (ChessGame.pieceName currPiece in allPieces)
                             {
@@ -308,6 +315,7 @@ namespace Chess.AIMove
                     setNewBoard(board, newBoard, y, x, Y, X);
                     ChessGame.pieceName[] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);
                     PictureBox selectedPiece = newBoard[Y][X];
+                    newPieceStateMapping[selectedPiece].HasMoved = true;
                     EnPassantDetails enPassantable = new EnPassantDetails(Y, X, selectedPiece);
                     foreach (ChessGame.pieceName currPiece in allPieces)
                     {
@@ -337,6 +345,7 @@ namespace Chess.AIMove
                         setNewBoard(board, newBoard, y, x, Y, X); // create new board object to be used as parameter to call minimax function
                         ChessGame.pieceName[] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);
                         PictureBox selectedPiece = newBoard[Y][X];
+                        newPieceStateMapping[selectedPiece].HasMoved = true;
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
                             if (currPiece != ChessGame.pieceName.Pawn)
@@ -365,6 +374,7 @@ namespace Chess.AIMove
                         setNewBoard(board, newBoard, y, x, Y, X);
                         ChessGame.pieceName[] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);
                         PictureBox selectedPiece = newBoard[Y][X];
+                        newPieceStateMapping[selectedPiece].HasMoved = true;
                         int totalBoardState = currentBoardState - value;
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
@@ -397,6 +407,7 @@ namespace Chess.AIMove
                         setNewBoard(board, newBoard, y, x, Y, X);
                         ChessGame.pieceName[] allPieces = setNewPieceStateMapping(pieceStateMapping, newPieceStateMapping, Y, turn, movesCount);
                         PictureBox selectedPiece = newBoard[Y][X];
+                        newPieceStateMapping[selectedPiece].HasMoved = true;
                         int totalBoardState = currentBoardState - value;
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
@@ -426,6 +437,8 @@ namespace Chess.AIMove
 
         private AIPruning RookAI(PictureBox[][] board, int y, int x, bool turn, int movesCount, int movesLimit, int currentBoardState, Dictionary<PictureBox, PieceStateDetails> pieceStateMapping)
         {
+            Dictionary<PictureBox, PieceStateDetails> newPieceStateMapping = new Dictionary<PictureBox, PieceStateDetails>();
+            CloneNewPieceStateMapping(pieceStateMapping, newPieceStateMapping);
             bool[] pieceDirection = new bool[4]; // this array represents north, east, south, west and will reduce the processing time
 
             for (int i = 1; i < 8; i++) // represents the distance to be moved
@@ -444,26 +457,26 @@ namespace Chess.AIMove
                         if (board[Y][X] == null) // rook moving to empty square
                         {
                             setNewBoard(board, newBoard, y, x, Y, X); // create new board object to be used as parameter to call minimax function
-                            if (!IsValidMove(newBoard, turn, pieceStateMapping)) continue;
-                            AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, newBoard, turn, pieceStateMapping);
+                            if (!IsValidMove(newBoard, turn, newPieceStateMapping)) continue;
+                            AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, newBoard, turn, newPieceStateMapping);
                             if (aiPruning.Prune) return aiPruning;
                             if (aiPruning.GameState == ChessGame.gameState.Stalemate) continue;
                             int totalBoardState = currentBoardState + aiPruning.Value;
                             AI newAI = new AI(movesCount + 1);
-                            int bestBoardState = newAI.MiniMax(newBoard, !turn, movesLimit, totalBoardState, pieceStateMapping);
-                            setResultBasedOnTurn(y, x, Y, X, turn, bestBoardState, newBoard, pieceStateMapping);
+                            int bestBoardState = newAI.MiniMax(newBoard, !turn, movesLimit, totalBoardState, newPieceStateMapping);
+                            setResultBasedOnTurn(y, x, Y, X, turn, bestBoardState, newBoard, newPieceStateMapping);
                         }
                         else // rook moving to square that is not empty
                         {
-                            PieceStateDetails selectedPiece = pieceStateMapping[board[Y][X]];
-                            int value = PieceValue(pieceStateMapping[board[Y][X]].PieceName);
+                            PieceStateDetails selectedPiece = newPieceStateMapping[board[Y][X]];
+                            int value = PieceValue(newPieceStateMapping[board[Y][X]].PieceName);
                             if (turn && selectedPiece.PieceColor == ChessGame.pieceColor.Black) // white rook eat black piece
                             {
                                 if (value == kingvalue) return KingTaken(turn);
                                 pieceDirection[j] = true;
                                 setNewBoard(board, newBoard, y, x, Y, X);  // create new board object to be used as parameter to call minimax function
-                                if (!IsValidMove(newBoard, turn, pieceStateMapping)) continue;    
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, newBoard, turn, pieceStateMapping);
+                                if (!IsValidMove(newBoard, turn, newPieceStateMapping)) continue;    
+                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, newBoard, turn, newPieceStateMapping);
                                 if (aiPruning.Prune) return aiPruning;
                                 if (aiPruning.GameState == ChessGame.gameState.Stalemate) continue;
                                 int totalBoardState = currentBoardState + value + aiPruning.Value;
@@ -471,8 +484,8 @@ namespace Chess.AIMove
                                 {                    
                                     bestPath = totalBoardState;
                                     AI newAI = new AI(movesCount + 1);
-                                    int bestBoardState = newAI.MiniMax(newBoard, !turn, movesLimit, totalBoardState, pieceStateMapping);
-                                    setResultBasedOnTurn(y, x, Y, X, turn, bestBoardState, newBoard, pieceStateMapping);
+                                    int bestBoardState = newAI.MiniMax(newBoard, !turn, movesLimit, totalBoardState, newPieceStateMapping);
+                                    setResultBasedOnTurn(y, x, Y, X, turn, bestBoardState, newBoard, newPieceStateMapping);
                                 }
                             }
                             else if (!turn && selectedPiece.PieceColor == ChessGame.pieceColor.White) // black rook eat white piece
@@ -480,8 +493,8 @@ namespace Chess.AIMove
                                 if (value == kingvalue) return KingTaken(turn);
                                 pieceDirection[j] = true;
                                 setNewBoard(board, newBoard, y, x, Y, X);
-                                if (!IsValidMove(newBoard, turn, pieceStateMapping)) continue;                               
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, newBoard, turn, pieceStateMapping);
+                                if (!IsValidMove(newBoard, turn, newPieceStateMapping)) continue;                               
+                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, newBoard, turn, newPieceStateMapping);
                                 if (aiPruning.Prune) return aiPruning;
                                 if (aiPruning.GameState == ChessGame.gameState.Stalemate) continue;
                                 int totalBoardState = currentBoardState - value + aiPruning.Value;
@@ -489,8 +502,8 @@ namespace Chess.AIMove
                                 {                                    
                                     bestPath = totalBoardState;
                                     AI newAI = new AI(movesCount + 1);
-                                    int bestBoardState = newAI.MiniMax(newBoard, !turn, movesLimit, totalBoardState, pieceStateMapping);
-                                    setResultBasedOnTurn(y, x, Y, X, turn, bestBoardState, newBoard, pieceStateMapping);
+                                    int bestBoardState = newAI.MiniMax(newBoard, !turn, movesLimit, totalBoardState, newPieceStateMapping);
+                                    setResultBasedOnTurn(y, x, Y, X, turn, bestBoardState, newBoard, newPieceStateMapping);
                                 }
                             }
                             else
@@ -729,15 +742,70 @@ namespace Chess.AIMove
 
         private AIPruning KingAI(PictureBox[][] board, int y, int x, bool turn, int movesCount, int movesLimit, int currentBoardState, Dictionary<PictureBox, PieceStateDetails> pieceStateMapping)
         {
+            if (!pieceStateMapping[board[y][x]].HasMoved) // if king castles 
+            {
+                PieceStateDetails selectedPiece = pieceStateMapping[board[y][x]];
+                int castlePoints = 10;
+                int firstMoveCastlingPoints = 5;
+                int castleTurnPoints = (selectedPiece.PieceColor == ChessGame.pieceColor.White ? castlePoints : -castlePoints);
+                // if this is the first move then increase the points to ensure that the ai will castle at the first opportunity
+                castleTurnPoints += movesCount != 0 ? 0 : selectedPiece.PieceColor == ChessGame.pieceColor.White ? firstMoveCastlingPoints : -firstMoveCastlingPoints;
+                Dictionary <PictureBox, PieceStateDetails> newPieceStateMapping = new Dictionary<PictureBox, PieceStateDetails>();
+                CloneNewPieceStateMapping(pieceStateMapping, newPieceStateMapping);
+                newPieceStateMapping[board[y][x]].HasMoved = true;
+                PictureBox[][] newBoard = new PictureBox[8][];
+                if (x + 2 < 8) // castling to the right
+                {
+                    int X = x + 2;
+                    CastlingDetails castleDetails = AbleToCastle(board, y, x, y, X, pieceStateMapping, turn);
+                    if (castleDetails != null)
+                    {
+                        setNewBoard(board, newBoard, y, x, y, X);
+                        newPieceStateMapping[castleDetails.Source].HasMoved = true;
+                        SetCastleMove(newBoard, castleDetails);
+                        AIPruning aiPruning = DetermineAIGameState(y, x, y, X, newBoard, turn, pieceStateMapping);
+                        if (aiPruning.Prune) return aiPruning;
+                        if (aiPruning.GameState == ChessGame.gameState.Stalemate) 
+                        {
+                            int totalBoardState = currentBoardState + aiPruning.Value + castleTurnPoints;
+                            AI newAI = new AI(movesCount + 1);
+                            int bestBoardState = newAI.MiniMax(newBoard, !turn, movesLimit, totalBoardState, newPieceStateMapping);
+                            setResultBasedOnTurn(y, x, y, X, turn, bestBoardState, newBoard, newPieceStateMapping);
+                            newPieceStateMapping[castleDetails.Source].HasMoved = false;
+                        }
+                    }
+                }
+                if (x - 2 > 0) // castling to the left
+                {
+                    int X = x - 2;
+                    CastlingDetails castleDetails = AbleToCastle(board, y, x, y, X, pieceStateMapping, turn);
+                    if (castleDetails != null)
+                    {
+                        setNewBoard(board, newBoard, y, x, y, X);
+                        newPieceStateMapping[castleDetails.Source].HasMoved = true;
+                        SetCastleMove(newBoard, castleDetails);
+                        AIPruning aiPruning = DetermineAIGameState(y, x, y, X, newBoard, turn, pieceStateMapping);
+                        if (aiPruning.Prune) return aiPruning;
+                        if (aiPruning.GameState != ChessGame.gameState.Stalemate) 
+                        {
+                            int totalBoardState = currentBoardState + aiPruning.Value + castleTurnPoints;
+                            AI newAI = new AI(movesCount + 1);
+                            int bestBoardState = newAI.MiniMax(newBoard, !turn, movesLimit, totalBoardState, newPieceStateMapping);
+                            setResultBasedOnTurn(y, x, y, X, turn, bestBoardState, newBoard, newPieceStateMapping);
+                            newPieceStateMapping[castleDetails.Source].HasMoved = false;
+                        }
+                    }
+                }
+            }
             // loop through all directions king can move by one square 
             for (int i = -1; i <= 1; i++)
             {
                 for (int j = -1; j <= 1; j++)
-                {
+                {         
                     int Y = y + i;
                     int X = x + j;
                     if ((i == 0 && j == 0) || Y < 0 || Y > 7 || X < 0 || X > 7) continue;
-                    PictureBox[][] newBoard = new PictureBox[8][];
+                    PictureBox[][] newBoard = new PictureBox[8][];                  
                     if (board[Y][X] == null) // if king moves to empty square
                     {
                         setNewBoard(board, newBoard, y, x, Y, X);
@@ -792,6 +860,81 @@ namespace Chess.AIMove
             return new AIPruning();
         }
 
+        private CastlingDetails AbleToCastle(PictureBox[][] board, int y, int x, int Y, int X, Dictionary<PictureBox, PieceStateDetails> pieceStateMapping, bool turn)
+        {
+            if (board[Y][X] != null) return null;
+            PictureBox source = board[y][x];
+            int diffX = X - x;
+            if (diffX < 0)
+            {
+                for (int i = x - 1; i >= 0; i--)
+                {
+                    PictureBox currentPiece = board[Y][i];
+                    if (currentPiece == null) continue;
+                    PieceStateDetails pieceStateDetails = pieceStateMapping[currentPiece];
+                    // this has to be a rook and the king has to be the same color as the rook and the rook has to be more than 2 squares away from the king and rook has not moved
+                    if (pieceStateDetails.PieceName == ChessGame.pieceName.Rook && pieceStateDetails.PieceColor == pieceStateMapping[source].PieceColor && x - i > 2 && !pieceStateDetails.HasMoved)
+                    {
+                        if (CastlingCheck(board, y, new int[] { x, x - 1, x - 2 }, source, pieceStateMapping, turn))
+                        {
+                            return new CastlingDetails(y, i, y, x - 1, currentPiece, board[y][x - 1]);
+                        }
+                    }
+                    return null;
+                }
+            }
+            else 
+            {
+                for (int i = x + 1; i < 8; i++)
+                {
+                    PictureBox currentPiece = board[Y][i];
+                    if (currentPiece == null) continue;
+                    PieceStateDetails pieceStateDetails = pieceStateMapping[currentPiece];
+                    // this has to be a rook and the king has to be the same color as the rook and the rook has to be more than 2 squares away from the king and rook has not moved
+                    if (pieceStateDetails.PieceName == ChessGame.pieceName.Rook && pieceStateDetails.PieceColor == pieceStateMapping[source].PieceColor && i - x > 2 && !pieceStateDetails.HasMoved)
+                    {
+                        if (CastlingCheck(board, y, new int[] { x, x + 1, x + 2 }, source, pieceStateMapping, turn)) 
+                        {
+                            return new CastlingDetails(y, i, y, x + 1, currentPiece, board[y][x + 1]);
+                        }
+                    }
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        private bool CastlingCheck(PictureBox[][] board, int Y, int[] allPositionsX, PictureBox source, Dictionary<PictureBox, PieceStateDetails> pieceStateMapping, bool turn)
+        {
+            PictureBox[][] newBoard = new PictureBox[8][];
+            for (int i = 0; i < newBoard.Length; i++)
+            {
+                newBoard[i] = new PictureBox[8];
+                board[i].CopyTo(newBoard[i], 0);
+            }
+            int prevX = -1;
+            for (int i = 0; i < allPositionsX.Length; i++)
+            {
+                int X = allPositionsX[i];
+                if (prevX == -1)
+                    prevX = X;
+                else
+                {
+                    newBoard[Y][prevX] = null;
+                    newBoard[Y][X] = source;
+                    prevX = X;
+                }
+                if (BoardCheck.Check.IsChecked(board, Y, X, !turn, pieceStateMapping)) return false;
+            }
+            return true;
+        }
+
+        private void SetCastleMove(PictureBox[][] board, CastlingDetails castlingDetails) 
+        {
+            board[castlingDetails.DestinationY][castlingDetails.DestinationX] = castlingDetails.Source;
+            board[castlingDetails.SourceY][castlingDetails.SourceX] = castlingDetails.Destination;
+        }
+
         private void setResultBasedOnTurn(int y, int x, int Y, int X, bool turn, int bestBoardState, PictureBox[][] newBoard, Dictionary<PictureBox, PieceStateDetails> pieceStateMapping, ChessGame.pieceName promptedTo = ChessGame.pieceName.None)
         {
             if (movesCount == 0)
@@ -820,7 +963,7 @@ namespace Chess.AIMove
                 case ChessGame.pieceName.Knight:
                     return 30;
                 case ChessGame.pieceName.Bishop:
-                    return 30;
+                    return 35;
                 case ChessGame.pieceName.Queen:
                     return 90;
                 default:
@@ -845,6 +988,14 @@ namespace Chess.AIMove
             foreach (KeyValuePair<PictureBox, PieceStateDetails> piece in pieceStateMapping)  
             {
                 newPieceStateMapping.Add(piece.Key, null);
+            }
+        }
+
+        private void CloneNewPieceStateMapping(Dictionary<PictureBox, PieceStateDetails> pieceStateMapping, Dictionary<PictureBox, PieceStateDetails> newPieceStateMapping) 
+        {
+            foreach (KeyValuePair<PictureBox, PieceStateDetails> piece in pieceStateMapping)
+            {
+                newPieceStateMapping[piece.Key] = piece.Value.Clone();
             }
         }
 

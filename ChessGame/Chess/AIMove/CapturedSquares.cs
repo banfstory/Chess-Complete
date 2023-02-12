@@ -9,8 +9,6 @@ namespace Chess.AIMove
         private PictureBox[][] board;
         private Dictionary<PictureBox, PieceStateDetails> pieceStateMapping;
         private const int move = 2;
-        private const int defense = 3;
-        private const int attack = 3;
 
         public CapturedSquares(PictureBox[][] Board, Dictionary<PictureBox, PieceStateDetails> PieceStateMapping) 
         {
@@ -60,28 +58,28 @@ namespace Chess.AIMove
             if (turn)
             {
                 if (board[y][x] == null)
-                    capturedBoard = capturedBoard + move;
+                    capturedBoard = capturedBoard + SquarePoints.move;
                 else
                 {
                     PieceStateDetails target = pieceStateMapping[board[y][x]];
                     if (target.PieceColor == ChessGame.pieceColor.White)
-                        capturedBoard = capturedBoard + defense;
+                        capturedBoard = capturedBoard + SquarePoints.defense[target.PieceName];
                     else 
-                        capturedBoard = capturedBoard + attack;
+                        capturedBoard = capturedBoard + SquarePoints.attack[target.PieceName];
                 }
                 
             }
             else
             {
                 if (board[y][x] == null)
-                    capturedBoard = capturedBoard - move;
+                    capturedBoard = capturedBoard - SquarePoints.move;
                 else
                 {
                     PieceStateDetails target = pieceStateMapping[board[y][x]];
                     if (target.PieceColor == ChessGame.pieceColor.Black)
-                        capturedBoard = capturedBoard - defense;
+                        capturedBoard = capturedBoard - SquarePoints.defense[target.PieceName];
                     else
-                        capturedBoard = capturedBoard - attack;
+                        capturedBoard = capturedBoard - SquarePoints.attack[target.PieceName];
                 }
             }
         }

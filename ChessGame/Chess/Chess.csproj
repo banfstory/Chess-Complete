@@ -56,6 +56,7 @@
     <Compile Include="AIMove\AIPruning.cs" />
     <Compile Include="AIMove\AIResult.cs" />
     <Compile Include="AIMove\CapturedSquares.cs" />
+    <Compile Include="AIMove\SquarePoints.cs" />
     <Compile Include="AISpecifications.cs">
       <SubType>Form</SubType>
     </Compile>

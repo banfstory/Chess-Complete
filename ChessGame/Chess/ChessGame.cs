@@ -44,7 +44,7 @@ namespace Chess
             InitializeHighlightBoard();
             /* For testing different board positions */
             //TestBoard testBoard = new TestBoard(board, this);
-            //testBoard.selectBoardChoice("TestAIOptimization", ChessGame.Opponent.AI, true, ChessGame.AIColor.Black, 3);
+            //testBoard.selectBoardChoice("AIPromote", ChessGame.Opponent.AI, true, ChessGame.AIColor.Black, 3);
         }
 
         private void InitializeHighlightBoard() 

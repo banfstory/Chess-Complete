@@ -57,6 +57,7 @@ namespace Chess.PieceMove
 
         private bool AbleToCastle(PictureBox[][] board) 
         {
+            // diffX requires the king to be 2 squares away from the position it is moving to
             if (!pieceStateMapping[source].HasMoved && diffY == 0 && (diffX == -2 || diffX == 2)) 
             {
                 if (board[destinationY][destinationX] != null) return false;

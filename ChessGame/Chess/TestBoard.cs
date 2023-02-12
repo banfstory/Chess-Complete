@@ -208,7 +208,7 @@ namespace Chess
         private void TestCastling()
         {
             testBoard[0][1] = pieceMap["bk"]; testBoard[7][4] = pieceMap["wk"];
-            int test_case = 0;
+            int test_case = 5;
             switch (test_case)
             {
                 case 0:
@@ -222,6 +222,12 @@ namespace Chess
                     break;
                 case 3:
                     testBoard[7][0] = pieceMap["wr1"]; testBoard[7][7] = pieceMap["wr2"]; testBoard[0][5] = pieceMap["br1"];
+                    break;
+                case 4:
+                    testBoard[7][0] = pieceMap["wr1"]; testBoard[7][7] = pieceMap["wr2"]; testBoard[6][0] = pieceMap["wp1"]; testBoard[6][7] = pieceMap["wp2"];
+                    break;
+                case 5:
+                    testBoard[0][0] = pieceMap["br1"]; testBoard[0][7] = pieceMap["br2"]; testBoard[0][1] = null; testBoard[0][4] = pieceMap["bk"];
                     break;
             }
         }
