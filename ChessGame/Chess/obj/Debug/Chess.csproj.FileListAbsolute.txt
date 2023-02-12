@@ -44,3 +44,19 @@ D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.csproj.CoreCompileI
 D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.exe
 D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.pdb
 D:\Chess 2022\chess-complete\ChessGame\Chess\obj\Debug\Chess.PromotePieceChoice.resources
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\bin\Debug\Chess.exe.config
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\bin\Debug\Chess.exe
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\bin\Debug\Chess.pdb
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.csproj.AssemblyReference.cache
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.csproj.SuggestedBindingRedirects.cache
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.About.resources
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.AISpecifications.resources
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.ChessGame.resources
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.NewGame.resources
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.PromotePieceChoice.resources
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.Properties.Resources.resources
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.Rules.resources
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.csproj.GenerateResource.cache
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.exe
+C:\Users\Denis\Documents\GitHub\Chess-Complete\ChessGame\Chess\obj\Debug\Chess.pdb

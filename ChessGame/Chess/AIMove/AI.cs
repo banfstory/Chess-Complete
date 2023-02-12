@@ -439,6 +439,7 @@ namespace Chess.AIMove
         {
             Dictionary<PictureBox, PieceStateDetails> newPieceStateMapping = new Dictionary<PictureBox, PieceStateDetails>();
             CloneNewPieceStateMapping(pieceStateMapping, newPieceStateMapping);
+            newPieceStateMapping[board[y][x]].HasMoved = true;
             bool[] pieceDirection = new bool[4]; // this array represents north, east, south, west and will reduce the processing time
 
             for (int i = 1; i < 8; i++) // represents the distance to be moved
