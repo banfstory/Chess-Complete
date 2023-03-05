@@ -139,7 +139,20 @@ namespace Chess
 
         private void TestAIPromote()
         {
-            testBoard[1][3] = pieceMap["bk"]; testBoard[7][3] = pieceMap["wk"]; testBoard[1][0] = pieceMap["wp1"]; testBoard[6][0] = pieceMap["bp1"];
+            testBoard[1][3] = pieceMap["bk"]; testBoard[7][3] = pieceMap["wk"]; 
+            int test_case = 1;
+            switch (test_case) 
+            {
+                case 0: // move pawn forward to promote
+                    testBoard[1][0] = pieceMap["wp1"]; testBoard[6][0] = pieceMap["bp1"];
+                    break;
+                case 1: // move pawn diagonally left to promote
+                    testBoard[6][6] = pieceMap["bp1"]; testBoard[1][6] = pieceMap["wp1"]; testBoard[0][5] = pieceMap["bp2"]; testBoard[7][5] = pieceMap["wp2"];
+                    break;
+                case 2: // move pawn diagonally right to promote
+                    testBoard[6][6] = pieceMap["bp1"]; testBoard[1][6] = pieceMap["wp1"]; testBoard[0][7] = pieceMap["bp2"]; testBoard[7][7] = pieceMap["wp2"];
+                    break;
+            }
         }
 
         private void TestPossibleMoves()
@@ -234,7 +247,7 @@ namespace Chess
 
         private void TestAIOptimization()
         {
-            int test_case = 5;
+            int test_case = 2;
             switch (test_case)
             {
                 case 0: // AI Checkmate

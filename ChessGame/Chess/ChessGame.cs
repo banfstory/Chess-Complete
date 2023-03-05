@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
 using PieceBehavior = Chess.PieceMove;
@@ -44,7 +43,7 @@ namespace Chess
             InitializeHighlightBoard();
             /* For testing different board positions */
             //TestBoard testBoard = new TestBoard(board, this);
-            //testBoard.selectBoardChoice("AIPromote", ChessGame.Opponent.AI, true, ChessGame.AIColor.Black, 3);
+            //testBoard.selectBoardChoice("TestAIOptimization", ChessGame.Opponent.AI, true, ChessGame.AIColor.Black, 3);
         }
 
         private void InitializeHighlightBoard() 
@@ -549,7 +548,10 @@ namespace Chess
                     }
                 }
                 EnPassantDetails enPassantDetails = History.EnPassantable ? new EnPassantDetails(History.DestinationY, History.DestinationX, History.Source) : null;
-                ai.MiniMax(board, turn, AIComplexity, currentBoardState, pieceStateMapping, enPassantDetails);
+                // currentBoard and currentPieceStateMapping will be copied and used for the MiniMax algorithm instead to ensure that the original copy does not get modified
+                PictureBox[][] currentBoard = CloneObject.CloneBoard(board);
+                Dictionary<PictureBox, PieceStateDetails> currentPieceStateMapping = CloneObject.ClonePieceStateMapping(pieceStateMapping);
+                ai.MiniMax(currentBoard, turn, AIComplexity, currentBoardState, currentPieceStateMapping, enPassantDetails);
                 selectedpiece = board[aiResult.SourceY][aiResult.SourceX];
                 if (!IsValidMove(PieceDetails.findSelectedPiece(board[aiResult.SourceY][aiResult.SourceX], pieceStateMapping).PieceName, aiResult.DestinationY, aiResult.DestinationX, aiResult.PromptedTo))
                 {

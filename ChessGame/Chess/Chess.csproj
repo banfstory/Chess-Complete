@@ -53,6 +53,8 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="AIMove\AI.cs" />
+    <Compile Include="AIMove\AIMoveDetails.cs" />
+    <Compile Include="AIMove\AIMoveType.cs" />
     <Compile Include="AIMove\AIPruning.cs" />
     <Compile Include="AIMove\AIResult.cs" />
     <Compile Include="AIMove\CapturedSquares.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="BoardCheck\Movable.cs" />
     <Compile Include="BoardCheck\PieceReach.cs" />
     <Compile Include="CastlingDetails.cs" />
+    <Compile Include="CloneObject.cs" />
     <Compile Include="DisplayPossibleMoves.cs" />
     <Compile Include="ChessGame.cs">
       <SubType>Form</SubType>
@@ -94,6 +97,7 @@
     <Compile Include="PieceMove\Rook.cs" />
     <Compile Include="PieceDetails.cs" />
     <Compile Include="PieceStateDetails.cs" />
+    <Compile Include="PieceStateMappingDetails.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Promote.cs" />
     <Compile Include="PromotePieceChoice.cs">
