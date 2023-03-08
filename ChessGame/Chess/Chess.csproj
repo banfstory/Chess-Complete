@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="EnPassantDetails.cs" />
     <Compile Include="History.cs" />
+    <Compile Include="IncreaseAIComplexity.cs" />
     <Compile Include="LastMoveMade.cs" />
     <Compile Include="NewGame.cs">
       <SubType>Form</SubType>

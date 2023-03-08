@@ -43,7 +43,7 @@ namespace Chess
             InitializeHighlightBoard();
             /* For testing different board positions */
             //TestBoard testBoard = new TestBoard(board, this);
-            //testBoard.selectBoardChoice("TestAIOptimization", ChessGame.Opponent.AI, true, ChessGame.AIColor.Black, 3);
+            //testBoard.selectBoardChoice("TestAIComplexity", ChessGame.Opponent.AI, false, ChessGame.AIColor.White, 4);
         }
 
         private void InitializeHighlightBoard() 
@@ -534,6 +534,8 @@ namespace Chess
             if (opponent == Opponent.AI && (currentState == gameState.Normal || currentState == gameState.Check) && ((turn && aiColor == AIColor.White) || (!turn && aiColor == AIColor.Black)))
             {
                 int currentBoardState = 0;
+                PictureBox[][] currentBoard = CloneObject.CloneBoard(board);
+                Dictionary<PictureBox, PieceStateDetails> currentPieceStateMapping = CloneObject.ClonePieceStateMapping(pieceStateMapping);
                 AIMove.AIResult aiResult = new AIMove.AIResult();
                 AIMove.AI ai = new AIMove.AI(0, aiResult);
                 for (int y = 0; y < board.Length; y++)
@@ -549,8 +551,6 @@ namespace Chess
                 }
                 EnPassantDetails enPassantDetails = History.EnPassantable ? new EnPassantDetails(History.DestinationY, History.DestinationX, History.Source) : null;
                 // currentBoard and currentPieceStateMapping will be copied and used for the MiniMax algorithm instead to ensure that the original copy does not get modified
-                PictureBox[][] currentBoard = CloneObject.CloneBoard(board);
-                Dictionary<PictureBox, PieceStateDetails> currentPieceStateMapping = CloneObject.ClonePieceStateMapping(pieceStateMapping);
                 ai.MiniMax(currentBoard, turn, AIComplexity, currentBoardState, currentPieceStateMapping, enPassantDetails);
                 selectedpiece = board[aiResult.SourceY][aiResult.SourceX];
                 if (!IsValidMove(PieceDetails.findSelectedPiece(board[aiResult.SourceY][aiResult.SourceX], pieceStateMapping).PieceName, aiResult.DestinationY, aiResult.DestinationX, aiResult.PromptedTo))

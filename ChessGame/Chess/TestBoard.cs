@@ -110,6 +110,9 @@ namespace Chess
                 case "TestAIEnPassant":
                     TestAIEnPassant();
                     break;
+                case "TestAIComplexity":
+                    TestAIComplexity();
+                    break;
             }
             SetUpBoard();
         }
@@ -282,6 +285,30 @@ namespace Chess
                     break;
                 case 5:
                     testBoard[0][6] = pieceMap["wk"]; testBoard[0][0] = pieceMap["bk"]; testBoard[2][6] = pieceMap["bq"];
+                    break;
+            }
+        }
+
+        private void TestAIComplexity()
+        {
+            int test_case = 1;
+            switch (test_case)
+            {
+                case 0: // AI Checkmate
+                    testBoard[0][0] = pieceMap["br1"]; testBoard[0][2] = pieceMap["bb1"]; testBoard[0][3] = pieceMap["bq"];
+                    testBoard[0][4] = pieceMap["bk"]; testBoard[0][5] = pieceMap["bb2"];  testBoard[0][7] = pieceMap["br2"];
+                    testBoard[3][3] = pieceMap["bkn1"]; 
+
+                    testBoard[7][0] = pieceMap["wr1"]; testBoard[7][2] = pieceMap["wb1"]; testBoard[7][3] = pieceMap["wq"];
+                    testBoard[7][4] = pieceMap["wk"]; testBoard[7][5] = pieceMap["wb2"]; testBoard[7][7] = pieceMap["wr2"];
+                    testBoard[4][3] = pieceMap["wkn1"]; 
+                    break;
+                case 1: // AI Checkmate
+                    testBoard[0][3] = pieceMap["bq"];
+                    testBoard[0][4] = pieceMap["bk"]; 
+
+                    testBoard[7][0] = pieceMap["wr1"];
+                    testBoard[7][4] = pieceMap["wk"];testBoard[7][7] = pieceMap["wr2"];
                     break;
             }
         }
