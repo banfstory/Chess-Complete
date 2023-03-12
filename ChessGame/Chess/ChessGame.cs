@@ -43,7 +43,7 @@ namespace Chess
             InitializeHighlightBoard();
             /* For testing different board positions */
             //TestBoard testBoard = new TestBoard(board, this);
-            //testBoard.selectBoardChoice("TestAIComplexity", ChessGame.Opponent.AI, false, ChessGame.AIColor.White, 4);
+            //testBoard.selectBoardChoice("TestAIEnPassant", ChessGame.Opponent.AI, false, ChessGame.AIColor.White, 4);
         }
 
         private void InitializeHighlightBoard() 
@@ -250,6 +250,7 @@ namespace Chess
         {
             int sourceY = PieceDetails.FindCoordinate(selectedpiece.Location.Y);
             int sourceX = PieceDetails.FindCoordinate(selectedpiece.Location.X);
+            if (sourceY == -1 || sourceX == -1 || destinationY == -1 || destinationX == -1) return false;
             switch (sourcePieceType)
             {
                 case pieceName.Pawn:

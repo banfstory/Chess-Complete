@@ -41,7 +41,7 @@ namespace Chess
             for (int i = 0; i < 8; i++)
                 if (coord >= 45 * i && coord < 45 * (i + 1))
                     return i;
-            throw null;
+            return -1;
         }
 
         static public int ToCoordinate(int axis) 

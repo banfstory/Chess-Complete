@@ -1,5 +1,4 @@
-﻿using Chess.PieceMove;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Chess.AIMove
@@ -113,22 +112,10 @@ namespace Chess.AIMove
                             foreach (ChessGame.pieceName currPiece in allPieces)
                             {
                                 PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                                if (IsValidMove(board, turn, pieceStateMapping))
-                                {
-                                    ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                    AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                    if (aiPruning.Prune)
-                                    {
-                                        pieceMappingDetails.RevertPieceState();
-                                        moveDetails.RevertBoardToOriginalState(board);
-                                        return aiPruning;
-                                    }
-                                    if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                    {
-                                        int totalBoardState = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                        CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, false, promptedTo);
-                                    }
-                                }
+                                int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
+                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                                AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                                if (aiPruning != null) return aiPruning;
                             }
                             moveDetails.RevertBoardToOriginalState(board);
                         }
@@ -146,22 +133,10 @@ namespace Chess.AIMove
                     foreach (ChessGame.pieceName currPiece in allPieces)
                     {
                         PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                        if (IsValidMove(board, turn, pieceStateMapping))
-                        {
-                            ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                            AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping, promptedTo);
-                            if (aiPruning.Prune)
-                            {
-                                pieceMappingDetails.RevertPieceState();
-                                moveDetails.RevertBoardToOriginalState(board);
-                                return aiPruning;
-                            }
-                            if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                            {
-                                int totalBoardState = currentBoardState + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true, promptedTo, enPassantable);
-                            }
-                        }
+                        int totalBoardStatePromoted = currentBoardState + PromotedPieceValue(currPiece, promotedPiece);
+                        ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                        AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo, true, enPassantable);
+                        if (aiPruning != null) return aiPruning;
                     }
                     moveDetails.RevertBoardToOriginalState(board);
                 }
@@ -179,22 +154,10 @@ namespace Chess.AIMove
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
                             PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping, promptedTo);
-                                if (aiPruning.Prune)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = currentBoardState + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true, promptedTo);
-                                }
-                            }
+                            int totalBoardStatePromoted = currentBoardState + PromotedPieceValue(currPiece, promotedPiece);
+                            ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                            AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                            if (aiPruning != null) return aiPruning;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -205,7 +168,6 @@ namespace Chess.AIMove
                         int X = x - 1;
                         PictureBox target = board[Y][X];
                         int value = PieceValueColor(pieceStateMapping[target]);
-                        if (value == kingvalue) return KingTaken(turn);
                         AIMoveDetails moveDetails = new AIMoveDetails(y, x, Y, X, board[y][x], board[Y][X]);
                         moveDetails.SetPieceToBoard(board);
                         ChessGame.pieceName[] allPieces = ReturnAllPromotedPieces(Y, turn, movesCount);
@@ -213,22 +175,10 @@ namespace Chess.AIMove
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
                             PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping, promptedTo);
-                                if (aiPruning.Prune)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, false, promptedTo);
-                                }
-                            }
+                            int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
+                            ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                            AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                            if (aiPruning != null) return aiPruning;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -239,7 +189,6 @@ namespace Chess.AIMove
                         int X = x + 1;
                         PictureBox target = board[Y][X];
                         int value = PieceValueColor(pieceStateMapping[target]);
-                        if (value == kingvalue) return KingTaken(turn);
                         AIMoveDetails moveDetails = new AIMoveDetails(y, x, Y, X, board[y][x], board[Y][X]);
                         moveDetails.SetPieceToBoard(board);
                         ChessGame.pieceName[] allPieces = ReturnAllPromotedPieces(Y, turn, movesCount);
@@ -247,22 +196,10 @@ namespace Chess.AIMove
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
                             PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping, promptedTo);
-                                if (aiPruning.Prune)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, false, promptedTo);
-                                }
-                            }
+                            int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
+                            ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                            AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                            if (aiPruning != null) return aiPruning;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -288,22 +225,10 @@ namespace Chess.AIMove
                             foreach (ChessGame.pieceName currPiece in allPieces)
                             {
                                 PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                                if (IsValidMove(board, turn, pieceStateMapping))
-                                {
-                                    ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                    AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping, promptedTo);
-                                    if (aiPruning.Prune)
-                                    {
-                                        pieceMappingDetails.RevertPieceState();
-                                        moveDetails.RevertBoardToOriginalState(board);
-                                        return aiPruning;
-                                    }
-                                    if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                    {
-                                        int totalBoardState = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                        CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, false, promptedTo);
-                                    }
-                                }
+                                int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
+                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                                AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                                if (aiPruning != null) return aiPruning;
                             }
                             moveDetails.RevertBoardToOriginalState(board);
                         }
@@ -320,22 +245,10 @@ namespace Chess.AIMove
                     foreach (ChessGame.pieceName currPiece in allPieces)
                     {
                         PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                        if (IsValidMove(board, turn, pieceStateMapping))
-                        {
-                            ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                            AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping, promptedTo);
-                            if (aiPruning.Prune)
-                            {
-                                pieceMappingDetails.RevertPieceState();
-                                moveDetails.RevertBoardToOriginalState(board);
-                                return aiPruning;
-                            }
-                            if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                            {
-                                int totalBoardState = currentBoardState + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true, promptedTo, enPassantable);
-                            }
-                        }
+                        int totalBoardStatePromoted = currentBoardState + PromotedPieceValue(currPiece, promotedPiece);
+                        ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                        AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo, true, enPassantable);
+                        if (aiPruning != null) return aiPruning;
                     }
                     moveDetails.RevertBoardToOriginalState(board);
                 }
@@ -352,22 +265,10 @@ namespace Chess.AIMove
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
                             PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping, promptedTo);
-                                if (aiPruning.Prune)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = currentBoardState + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true, promptedTo);
-                                }
-                            }
+                            int totalBoardStatePromoted = currentBoardState + PromotedPieceValue(currPiece, promotedPiece);
+                            ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                            AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                            if (aiPruning != null) return aiPruning;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -385,22 +286,10 @@ namespace Chess.AIMove
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
                             PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping, promptedTo);
-                                if (aiPruning.Prune)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, false, promptedTo);
-                                }
-                            }
+                            int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
+                            ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                            AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                            if (aiPruning != null) return aiPruning;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -418,22 +307,10 @@ namespace Chess.AIMove
                         foreach (ChessGame.pieceName currPiece in allPieces)
                         {
                             PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping, promptedTo);
-                                if (aiPruning.Prune)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece) + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, false, promptedTo);
-                                }
-                            }
+                            int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
+                            ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                            AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                            if (aiPruning != null) return aiPruning;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -467,79 +344,20 @@ namespace Chess.AIMove
                         moveDetails.SetPieceToBoard(board);
                         if (target == null) // rook moving to empty square
                         {
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                if (aiPruning.Prune)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = currentBoardState + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true);
-                                }
-                            }
+                            AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, currentBoardState, turn, movesLimit, pieceStateMapping, moveDetails);
+                            if (aiPruning != null) return aiPruning;
                         }
                         else // rook moving to square that is not empty
                         {
                             PieceStateDetails targetPiece = pieceStateMapping[target];
                             int value = PieceValueColor(targetPiece);
                             int totalBoardStateCurrent = currentBoardState + value;
-                            if (turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) // white rook eat black piece
+                            if ((turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) || (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White)) // if rook eat opposite piece
                             {
-                                if (value == kingvalue)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return KingTaken(turn);
-                                }
-                                pieceDirection[j] = true;
-                                if (IsValidMove(board, turn, pieceStateMapping))
-                                {
-                                    AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                    if (aiPruning.Prune)
-                                    {
-                                        pieceMappingDetails.RevertPieceState();
-                                        moveDetails.RevertBoardToOriginalState(board);
-                                        return aiPruning;
-                                    }
-                                    if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                    {
-                                        int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                        CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                                    }
-                                }
+                                AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStateCurrent, turn, movesLimit, pieceStateMapping, moveDetails);
+                                if (aiPruning != null) return aiPruning;
                             }
-                            else if (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White) // black rook eat white piece
-                            {
-                                if (value == kingvalue)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return KingTaken(turn);
-                                }
-                                pieceDirection[j] = true;
-                                if (IsValidMove(board, turn, pieceStateMapping))
-                                {
-                                    AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                    if (aiPruning.Prune)
-                                    {
-                                        pieceMappingDetails.RevertPieceState();
-                                        moveDetails.RevertBoardToOriginalState(board);
-                                        return aiPruning;
-                                    }
-                                    if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                    {
-                                        int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                        CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                                    }
-                                }
-                            }
-                            else
-                                pieceDirection[j] = true; // if rook lands on the its same color piece
+                            pieceDirection[j] = true;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -563,69 +381,18 @@ namespace Chess.AIMove
                 moveDetails.SetPieceToBoard(board);
                 if (target == null) // knight moving to empty square
                 {
-                    if (IsValidMove(board, turn, pieceStateMapping))
-                    {
-                        AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                        if (aiPruning.Prune)
-                        {
-                            moveDetails.RevertBoardToOriginalState(board);
-                            return aiPruning;
-                        }
-                        if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                        {
-                            int totalBoardState = currentBoardState + aiPruning.Value;
-                            CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true);
-                        }
-                    }
+                    AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, currentBoardState, turn, movesLimit, pieceStateMapping, moveDetails);
+                    if (aiPruning != null) return aiPruning;
                 }
                 else
                 {
                     PieceStateDetails targetPiece = pieceStateMapping[target];
                     int value = PieceValueColor(targetPiece);
                     int totalBoardStateCurrent = currentBoardState + value;                
-                    if (turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) // white knight eatting black piece
+                    if ((turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) || (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White)) // if knight eat opposite piece
                     {
-                        if (value == kingvalue)
-                        {
-                            moveDetails.RevertBoardToOriginalState(board);
-                            return KingTaken(turn);
-                        }
-                        if (IsValidMove(board, turn, pieceStateMapping))
-                        {
-                            AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                            if (aiPruning.Prune)
-                            {
-                                moveDetails.RevertBoardToOriginalState(board);
-                                return aiPruning;
-                            }
-                            if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                            {
-                                int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                            }
-                        }
-                    }
-                    else if (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White) // black knight eatting white piece
-                    {
-                        if (value == kingvalue)
-                        {
-                            moveDetails.RevertBoardToOriginalState(board);
-                            return KingTaken(turn);
-                        }
-                        if (IsValidMove(board, turn, pieceStateMapping))
-                        {
-                            AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                            if (aiPruning.Prune)
-                            {
-                                moveDetails.RevertBoardToOriginalState(board);
-                                return aiPruning;
-                            }
-                            if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                            {
-                                int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                            }
-                        }
+                        AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStateCurrent, turn, movesLimit, pieceStateMapping, moveDetails);
+                        if (aiPruning != null) return aiPruning;
                     }
                 }
                 moveDetails.RevertBoardToOriginalState(board);
@@ -654,74 +421,20 @@ namespace Chess.AIMove
                         moveDetails.SetPieceToBoard(board);
                         if (target == null) // bishop moving to empty square
                         {
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                if (aiPruning.Prune)
-                                {
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = currentBoardState + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true);
-                                }
-                            }
+                            AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, currentBoardState, turn, movesLimit, pieceStateMapping, moveDetails);
+                            if (aiPruning != null) return aiPruning;
                         }
                         else
                         {
                             PieceStateDetails targetPiece = pieceStateMapping[target];
                             int value = PieceValueColor(targetPiece);
                             int totalBoardStateCurrent = currentBoardState + value;
-                            if (turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) // white bishop eatting black piece
+                            if ((turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) || (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White)) // if bishop eat opposite piece
                             {
-                                if (value == kingvalue)
-                                {
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return KingTaken(turn);
-                                }
-                                pieceDirection[j] = true;
-                                if (IsValidMove(board, turn, pieceStateMapping))
-                                {
-                                    AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                    if (aiPruning.Prune)
-                                    {
-                                        moveDetails.RevertBoardToOriginalState(board);
-                                        return aiPruning;
-                                    }
-                                    if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                    {
-                                        int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                        CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                                    }
-                                }
+                                AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStateCurrent, turn, movesLimit, pieceStateMapping, moveDetails);
+                                if (aiPruning != null) return aiPruning;
                             }
-                            else if (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White) // black bishop eatting white piece
-                            {
-                                if (value == kingvalue)
-                                {
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return KingTaken(turn);
-                                }
-                                pieceDirection[j] = true;
-                                if (IsValidMove(board, turn, pieceStateMapping))
-                                {
-                                    AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                    if (aiPruning.Prune)
-                                    {
-                                        moveDetails.RevertBoardToOriginalState(board);
-                                        return aiPruning;
-                                    }
-                                    if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                    {
-                                        int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                        CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                                    }
-                                }
-                            }
-                            else
-                                pieceDirection[j] = true; // if bishop lands on the its same color piece
+                            pieceDirection[j] = true;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -753,74 +466,20 @@ namespace Chess.AIMove
                         moveDetails.SetPieceToBoard(board);
                         if (target == null) // if queen moves to an empty square
                         {
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                if (aiPruning.Prune)
-                                {
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = currentBoardState + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true);
-                                }
-                            }
+                            AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, currentBoardState, turn, movesLimit, pieceStateMapping, moveDetails);
+                            if (aiPruning != null) return aiPruning;
                         }
                         else
                         {
                             PieceStateDetails targetPiece = pieceStateMapping[target];
                             int value = PieceValueColor(targetPiece);
                             int totalBoardStateCurrent = currentBoardState + value;
-                            if (turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) // if white queen eats a black piece
+                            if ((turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) || (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White)) // if queen eat opposite piece
                             {
-                                if (value == kingvalue)
-                                {
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return KingTaken(turn);
-                                }
-                                pieceDirection[j] = true;
-                                if (IsValidMove(board, turn, pieceStateMapping))
-                                {
-                                    AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                    if (aiPruning.Prune)
-                                    {
-                                        moveDetails.RevertBoardToOriginalState(board);
-                                        return aiPruning;
-                                    }
-                                    if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                    {
-                                        int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                        CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                                    }
-                                }
+                                AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStateCurrent, turn, movesLimit, pieceStateMapping, moveDetails);
+                                if (aiPruning != null) return aiPruning;
                             }
-                            else if (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White) // if black queen eats a white piece
-                            {
-                                if (value == kingvalue)
-                                {
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return KingTaken(turn);
-                                }
-                                pieceDirection[j] = true;
-                                if (IsValidMove(board, turn, pieceStateMapping))
-                                {
-                                    AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                    if (aiPruning.Prune)
-                                    {
-                                        moveDetails.RevertBoardToOriginalState(board);
-                                        return aiPruning;
-                                    }
-                                    if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                    {
-                                        int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                        CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                                    }
-                                }
-                            }
-                            else
-                                pieceDirection[j] = true; // if bishop lands on the its same color piece
+                            pieceDirection[j] = true;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -844,6 +503,7 @@ namespace Chess.AIMove
                 int castleTurnPoints = (selectedPiece.PieceColor == ChessGame.pieceColor.White ? castlePoints : -castlePoints);
                 // if this is the first move then increase the points to ensure that the ai will castle at the first opportunity
                 castleTurnPoints += movesCount != 0 ? 0 : selectedPiece.PieceColor == ChessGame.pieceColor.White ? firstMoveCastlingPoints : -firstMoveCastlingPoints;
+                int totalBoardStateCurrent = currentBoardState + castleTurnPoints;
                 if (x + 2 < 8) // castling to the right
                 {
                     int X = x + 2;
@@ -854,19 +514,8 @@ namespace Chess.AIMove
                         moveDetails.SetPieceToBoard(board);
                         PieceStateMappingDetails rookMappingDetails = setPieceMappingDetailsTurn(castleDetails.Source, pieceStateMapping);
                         rookMappingDetails.SetPieceState();
-                        AIPruning aiPruning = DetermineAIGameState(y, x, y, X, board, turn, pieceStateMapping);
-                        if (aiPruning.Prune)
-                        {
-                            pieceMappingDetailsCastle.RevertPieceState();
-                            rookMappingDetails.RevertPieceState();
-                            moveDetails.RevertBoardToOriginalState(board);
-                            return aiPruning;
-                        }
-                        if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                        {
-                            int totalBoardState = currentBoardState + aiPruning.Value + castleTurnPoints;
-                            CalculateBestPath(board, y, x, y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true);
-                        }
+                        AIPruning aiPruning = ConfirmNodeRoute(board, y, x, y, X, totalBoardStateCurrent, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetailsCastle, rookMappingDetails);
+                        if (aiPruning != null) return aiPruning;
                         rookMappingDetails.RevertPieceState();
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -881,19 +530,8 @@ namespace Chess.AIMove
                         moveDetails.SetPieceToBoard(board);
                         PieceStateMappingDetails rookMappingDetails = setPieceMappingDetailsTurn(castleDetails.Source, pieceStateMapping);
                         rookMappingDetails.SetPieceState();
-                        AIPruning aiPruning = DetermineAIGameState(y, x, y, X, board, turn, pieceStateMapping);
-                        if (aiPruning.Prune)
-                        {
-                            pieceMappingDetailsCastle.RevertPieceState();
-                            rookMappingDetails.RevertPieceState();
-                            moveDetails.RevertBoardToOriginalState(board);
-                            return aiPruning;
-                        }
-                        if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                        {
-                            int totalBoardState = currentBoardState + aiPruning.Value + castleTurnPoints;
-                            CalculateBestPath(board, y, x, y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true);
-                        }
+                        AIPruning aiPruning = ConfirmNodeRoute(board, y, x, y, X, totalBoardStateCurrent, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetailsCastle, rookMappingDetails);
+                        if (aiPruning != null) return aiPruning;
                         rookMappingDetails.RevertPieceState();
                         moveDetails.RevertBoardToOriginalState(board);
                     }
@@ -915,74 +553,18 @@ namespace Chess.AIMove
                     moveDetails.SetPieceToBoard(board);
                     if (target == null) // if king moves to empty square
                     {
-                        if (IsValidMove(board, turn, pieceStateMapping))
-                        {
-                            AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                            if (aiPruning.Prune)
-                            {
-                                pieceMappingDetails.RevertPieceState();
-                                moveDetails.RevertBoardToOriginalState(board);
-                                return aiPruning;
-                            }
-                            if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                            {
-                                int totalBoardState = currentBoardState + aiPruning.Value;
-                                CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, true);
-                            }
-                        }
+                        AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, currentBoardState, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails);
+                        if (aiPruning != null) return aiPruning;
                     }
                     else
                     {
                         PieceStateDetails targetPiece = pieceStateMapping[target];
                         int value = PieceValueColor(targetPiece);
                         int totalBoardStateCurrent = currentBoardState + value;
-                        if (turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) // white king eats black piece
+                        if ((turn && targetPiece.PieceColor == ChessGame.pieceColor.Black) || (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White)) // king eat opposite color piece
                         {
-                            if (value == kingvalue)
-                            {
-                                pieceMappingDetails.RevertPieceState();
-                                moveDetails.RevertBoardToOriginalState(board);
-                                return KingTaken(turn);
-                            }
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                if (aiPruning.Prune)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                                }
-                            }
-                        }
-                        else if (!turn && targetPiece.PieceColor == ChessGame.pieceColor.White) // black king eats white piece
-                        {
-                            if (value == kingvalue)
-                            {
-                                pieceMappingDetails.RevertPieceState();
-                                moveDetails.RevertBoardToOriginalState(board);
-                                return KingTaken(turn);
-                            }
-                            if (IsValidMove(board, turn, pieceStateMapping))
-                            {
-                                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
-                                if (aiPruning.Prune)
-                                {
-                                    pieceMappingDetails.RevertPieceState();
-                                    moveDetails.RevertBoardToOriginalState(board);
-                                    return aiPruning;
-                                }
-                                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
-                                {
-                                    int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
-                                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping);
-                                }
-                            }
+                            AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStateCurrent, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails);
+                            if (aiPruning != null) return aiPruning;
                         }
                     }
                     moveDetails.RevertBoardToOriginalState(board);
@@ -990,6 +572,39 @@ namespace Chess.AIMove
             }
             pieceMappingDetails.RevertPieceState();
             return new AIPruning();
+        }
+
+        private AIPruning ConfirmNodeRouteEat(PictureBox[][] board, int value, int y, int x, int Y, int X, int totalBoardStateCurrent, bool turn, int movesLimit, Dictionary<PictureBox, PieceStateDetails> pieceStateMapping, AIMoveDetails moveDetails, PieceStateMappingDetails pieceMappingDetails = null, PieceStateMappingDetails rookMappingDetails = null, ChessGame.pieceName promptedTo = ChessGame.pieceName.None, EnPassantDetails enPassantable = null)
+        {
+            if (value == kingvalue)
+            {
+                if (pieceMappingDetails != null) pieceMappingDetails.RevertPieceState();
+                if (rookMappingDetails != null) rookMappingDetails.RevertPieceState();
+                moveDetails.RevertBoardToOriginalState(board);
+                return KingTaken(turn);
+            }
+            return ConfirmNodeRoute(board, y, x, Y, X, totalBoardStateCurrent, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, rookMappingDetails, promptedTo, false, enPassantable);
+        }
+
+        private AIPruning ConfirmNodeRoute(PictureBox[][] board, int y, int x, int Y, int X, int totalBoardStateCurrent, bool turn, int movesLimit, Dictionary<PictureBox, PieceStateDetails> pieceStateMapping, AIMoveDetails moveDetails, PieceStateMappingDetails pieceMappingDetails = null, PieceStateMappingDetails rookMappingDetails = null, ChessGame.pieceName promptedTo = ChessGame.pieceName.None, bool skipPruning = true, EnPassantDetails enPassantable = null)
+        {
+            if (IsValidMove(board, turn, pieceStateMapping))
+            {
+                AIPruning aiPruning = DetermineAIGameState(y, x, Y, X, board, turn, pieceStateMapping);
+                if (aiPruning.Prune)
+                {
+                    if (pieceMappingDetails != null) pieceMappingDetails.RevertPieceState();
+                    if (rookMappingDetails != null) rookMappingDetails.RevertPieceState();
+                    moveDetails.RevertBoardToOriginalState(board);
+                    return aiPruning;
+                }
+                if (aiPruning.GameState != ChessGame.gameState.Stalemate)
+                {
+                    int totalBoardState = totalBoardStateCurrent + aiPruning.Value;
+                    CalculateBestPath(board, y, x, Y, X, turn, totalBoardState, movesLimit, pieceStateMapping, skipPruning, promptedTo, enPassantable);
+                }
+            }
+            return null;
         }
 
         private void CalculateBestPath(PictureBox[][] board, int y, int x, int Y, int X, bool turn, int totalBoardState, int movesLimit, Dictionary<PictureBox, PieceStateDetails> pieceStateMapping, bool skipPruning = false, ChessGame.pieceName promptedTo = ChessGame.pieceName.None, EnPassantDetails enPassantable = null)

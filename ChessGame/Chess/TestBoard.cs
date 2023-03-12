@@ -113,6 +113,9 @@ namespace Chess
                 case "TestAIComplexity":
                     TestAIComplexity();
                     break;
+                case "AIForcedCheckMate":
+                    AIForcedCheckMate();
+                    break;
             }
             SetUpBoard();
         }
@@ -143,7 +146,7 @@ namespace Chess
         private void TestAIPromote()
         {
             testBoard[1][3] = pieceMap["bk"]; testBoard[7][3] = pieceMap["wk"]; 
-            int test_case = 1;
+            int test_case = 2;
             switch (test_case) 
             {
                 case 0: // move pawn forward to promote
@@ -204,7 +207,7 @@ namespace Chess
         private void TestAIEnPassant() 
         {
             testBoard[7][4] = pieceMap["wk"]; testBoard[0][4] = pieceMap["bk"];
-            int test_case = 0;
+            int test_case = 1;
             switch (test_case)
             {
                 case 0: // Test if black AI can enPassant white pawn
@@ -224,7 +227,7 @@ namespace Chess
         private void TestCastling()
         {
             testBoard[0][1] = pieceMap["bk"]; testBoard[7][4] = pieceMap["wk"];
-            int test_case = 5;
+            int test_case = 0;
             switch (test_case)
             {
                 case 0:
@@ -287,6 +290,28 @@ namespace Chess
                     testBoard[0][6] = pieceMap["wk"]; testBoard[0][0] = pieceMap["bk"]; testBoard[2][6] = pieceMap["bq"];
                     break;
             }
+        }
+
+        private void AIForcedCheckMate()
+        {
+            int test_case = 1;
+            switch (test_case)
+            {
+                case 0:
+                    testBoard[0][0] = pieceMap["br1"]; testBoard[0][1] = pieceMap["bkn1"]; testBoard[0][2] = pieceMap["bb1"]; testBoard[0][3] = pieceMap["bk"];
+                    testBoard[0][4] = pieceMap["br2"]; testBoard[1][0] = pieceMap["bp1"]; testBoard[1][1] = pieceMap["bp2"]; testBoard[1][2] = pieceMap["bp3"];
+                    testBoard[1][3] = pieceMap["bp4"]; testBoard[1][5] = pieceMap["bp5"]; testBoard[1][7] = pieceMap["bp6"]; testBoard[4][2] = pieceMap["wb1"];
+                    testBoard[5][4] = pieceMap["wq"]; testBoard[6][0] = pieceMap["wp1"]; testBoard[6][3] = pieceMap["wk"]; testBoard[6][4] = pieceMap["wkn1"];
+                    testBoard[6][5] = pieceMap["wp2"]; testBoard[6][7] = pieceMap["bq"]; testBoard[7][4] = pieceMap["wr1"]; testBoard[7][6] = pieceMap["wr2"];
+                    break;
+                case 1:
+                    testBoard[0][0] = pieceMap["bk"]; testBoard[3][5] = pieceMap["bq"]; testBoard[1][0] = pieceMap["bp1"]; 
+                    testBoard[1][1] = pieceMap["bp2"]; testBoard[1][2] = pieceMap["bp3"];testBoard[1][3] = pieceMap["bp4"]; 
+                    testBoard[1][7] = pieceMap["bp6"];testBoard[6][0] = pieceMap["wp1"]; testBoard[6][1] = pieceMap["wk"]; 
+                    testBoard[4][0] = pieceMap["wb1"]; testBoard[6][5] = pieceMap["wp2"]; testBoard[7][4] = pieceMap["br1"]; 
+                    testBoard[6][6] = pieceMap["wr2"]; testBoard[3][1] = pieceMap["wr1"];
+                    break;
+            } 
         }
 
         private void TestAIComplexity()

@@ -24,6 +24,7 @@ namespace Chess
 
         public void DisplayMoves(int Y, int X, PictureBox[][] board, List<PictureBox> PossiblePieceToTake, bool turn, ChessGame.pieceName sourcePieceType, History history)
         {
+            if (Y == -1 || X == -1) return;
             switch (sourcePieceType) 
             {
                 case ChessGame.pieceName.Pawn:
