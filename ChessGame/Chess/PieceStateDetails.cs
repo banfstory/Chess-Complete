@@ -1,5 +1,6 @@
 ﻿namespace Chess
 {
+    // determine the current state of the piece such as whether the piece has moved or has the piece type changed to something else due to promotion
     public class PieceStateDetails
     {
         private ChessGame.pieceColor _pieceColor;

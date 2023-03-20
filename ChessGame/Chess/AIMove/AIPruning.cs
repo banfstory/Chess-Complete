@@ -1,5 +1,6 @@
 ﻿namespace Chess.AIMove
 {
+    // this will determine what paths to prune out while processing recursively
     class AIPruning
     {
         private int _value;

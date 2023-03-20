@@ -2,6 +2,7 @@
 
 namespace Chess
 {
+    // move details of how the king castles
     public class CastlingDetails
     {
         private int sourceY;

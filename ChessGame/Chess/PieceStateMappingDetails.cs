@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 namespace Chess
 {
+    // piece promotion details which can be promoted or demoted back to it's original state
     class PieceStateMappingDetails
     {
         PictureBox Piece;

@@ -2,6 +2,7 @@
 
 namespace Chess
 {
+    // move details of how the pawn enpassants
     public class EnPassantDetails
     {
         private int y;

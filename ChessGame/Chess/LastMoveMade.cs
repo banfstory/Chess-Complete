@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 namespace Chess
 {
+    // highlight the move made by the piece on the previous turn
     class LastMoveMade
     {
         int sizeOfBox = 45;

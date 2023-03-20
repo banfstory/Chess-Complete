@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 namespace Chess.AIMove
 {
+    // this determines the amount of captured squares for each player based on their piece layout which will help determine the best move to make by the AI
     class CapturedSquares
     {
         public int capturedBoard = 0;

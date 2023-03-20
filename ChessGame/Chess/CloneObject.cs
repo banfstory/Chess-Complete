@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 namespace Chess
 {
+    // clone array which will be used for processing
     static class CloneObject
     {
         static public PictureBox[][] CloneBoard(PictureBox[][] board)

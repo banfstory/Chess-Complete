@@ -5,6 +5,7 @@ using System.Drawing;
 
 namespace Chess
 {
+    // details about promoted piece
     public class Promote
     {
         private PieceStateDetails selectedPiece;

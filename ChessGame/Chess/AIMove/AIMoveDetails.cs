@@ -2,6 +2,7 @@
 
 namespace Chess.AIMove
 {
+    // This will be used to reduce the processing time which ensures that it does not need to create a new board array for each node when processing recursively but instead it reverts the board array to it's original state
     class AIMoveDetails
     {
         private AIMoveType.moveType MoveType;
@@ -29,6 +30,7 @@ namespace Chess.AIMove
             this.pieceStateMappingDetails = pieceStateMappingDetails;
         }
 
+        // this will set the piece(s) to the board array where the node path starts
         public void SetPieceToBoard(PictureBox[][] board) 
         {
             board[SourceY][SourceX] = null;
@@ -44,6 +46,7 @@ namespace Chess.AIMove
             }
         }
 
+        // this will revert the board to it's original state once the node path has completely processing
         public void RevertBoardToOriginalState(PictureBox[][] board)
         {
             board[SourceY][SourceX] = Source;

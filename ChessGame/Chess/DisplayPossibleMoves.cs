@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 namespace Chess
 {
+    // highlight all possible moves that can be made by selected piece
     class DisplayPossibleMoves
     {
         int sizeOfBox = 45;

@@ -5,6 +5,7 @@ using static Chess.ChessGame;
 
 namespace Chess
 {
+    // setup different board positions for testing purposes
     class TestBoard
     {
         private ChessGame main;
@@ -206,7 +207,7 @@ namespace Chess
 
         private void TestAIEnPassant() 
         {
-            testBoard[7][4] = pieceMap["wk"]; testBoard[0][4] = pieceMap["bk"];
+            testBoard[7][0] = pieceMap["wk"]; testBoard[0][0] = pieceMap["bk"];
             int test_case = 1;
             switch (test_case)
             {
@@ -227,7 +228,7 @@ namespace Chess
         private void TestCastling()
         {
             testBoard[0][1] = pieceMap["bk"]; testBoard[7][4] = pieceMap["wk"];
-            int test_case = 0;
+            int test_case = 5;
             switch (test_case)
             {
                 case 0:

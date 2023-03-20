@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
+// determine how the piece moves whether it's just a normal move, enpassant or castling
 namespace Chess.AIMove
 {
     public class AIMoveType
