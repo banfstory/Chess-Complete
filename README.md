@@ -5,5 +5,5 @@ My chess game is built in C# with the .NET framework (Windows Forms App), the ga
 To access the code, go to the path: ChessGame (folder) > Chess.sln.
 To access the executable file and play the chess game directly, go to the path: ChessGame (folder) > Chess(folder) > obj (folder) > Debug (folder) > Chess (.exe)
 
-The chess pieces and chess board images I used came from this link: https://github.com/melvic-ybanez/my_chessmate
-The chess icon came from this link: https://www.iconarchive.com/show/papirus-apps-icons-by-papirus-team/chess-icon.html
+The chess pieces and chess board images I used came from this link: https://github.com/melvic-ybanez/my_chessmate .
+The chess icon came from this link: https://www.iconarchive.com/show/papirus-apps-icons-by-papirus-team/chess-icon.html .
