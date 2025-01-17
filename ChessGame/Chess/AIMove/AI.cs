@@ -93,54 +93,6 @@ namespace Chess.AIMove
             PieceStateMappingDetails pieceMappingDetails = setPieceMappingDetailsTurn(piece, pieceStateMapping);
             if (turn) // white pawn move
             {
-                // white pawn enPassant
-                if (enPassantDetails != null && enPassantDetails.Y == y && (enPassantDetails.X == x - 1 || enPassantDetails.X == x + 1))
-                {
-                    PieceStateDetails enPassantTarget = pieceStateMapping[enPassantDetails.Target];
-                    if (enPassantTarget.PieceColor == ChessGame.pieceColor.Black && enPassantTarget.PieceName == ChessGame.pieceName.Pawn)
-                    {
-                        int Y = enPassantDetails.Y - 1;
-                        int X = enPassantDetails.X;
-                        if (Y >= 0 && board[Y][X] == null)
-                        {
-                            int value = PieceValueColor(pieceStateMapping[enPassantDetails.Target]);
-                            AIMoveDetails moveDetails = new AIMoveDetails(y, x, Y, X, board[y][x], board[Y][X], AIMoveType.moveType.EnPassant, enPassantDetails, null);
-                            moveDetails.SetPieceToBoard(board);
-                            board[enPassantDetails.Y][enPassantDetails.X] = null;
-                            ChessGame.pieceName[] allPieces = ReturnAllPromotedPieces(Y, turn, movesCount);
-                            int totalBoardStateCurrent = currentBoardState + value;
-                            foreach (ChessGame.pieceName currPiece in allPieces)
-                            {
-                                PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                                int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
-                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
-                                if (aiPruning != null) return aiPruning;
-                            }
-                            moveDetails.RevertBoardToOriginalState(board);
-                        }
-                    }
-                }
-
-                if (y - 2 >= 0 && y == 6 && board[y - 1][x] == null && board[y - 2][x] == null) // white pawn moves 2 squares north to empty square 
-                {
-                    int Y = y - 2;
-                    int X = x;
-                    AIMoveDetails moveDetails = new AIMoveDetails(y, x, Y, X, board[y][x], board[Y][X]);
-                    moveDetails.SetPieceToBoard(board);
-                    ChessGame.pieceName[] allPieces = ReturnAllPromotedPieces(Y, turn, movesCount);
-                    EnPassantDetails enPassantable = new EnPassantDetails(Y, X, piece);
-                    foreach (ChessGame.pieceName currPiece in allPieces)
-                    {
-                        PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                        int totalBoardStatePromoted = currentBoardState + PromotedPieceValue(currPiece, promotedPiece);
-                        ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                        AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo, true, enPassantable);
-                        if (aiPruning != null) return aiPruning;
-                    }
-                    moveDetails.RevertBoardToOriginalState(board);
-                }
-
                 if (y - 1 >= 0)
                 {
                     // white pawn moving 1 square north to empty square
@@ -204,39 +156,9 @@ namespace Chess.AIMove
                         moveDetails.RevertBoardToOriginalState(board);
                     }
                 }
-            }
-            else // black pawn move
-            {
-                // black pawn enPassant
-                if (enPassantDetails != null && enPassantDetails.Y == y && (enPassantDetails.X == x - 1 || enPassantDetails.X == x + 1))
+                if (y - 2 >= 0 && y == 6 && board[y - 1][x] == null && board[y - 2][x] == null) // white pawn moves 2 squares north to empty square 
                 {
-                    PieceStateDetails enPassantTarget = pieceStateMapping[enPassantDetails.Target];
-                    if (enPassantTarget.PieceColor == ChessGame.pieceColor.White && enPassantTarget.PieceName == ChessGame.pieceName.Pawn)
-                    {
-                        int Y = enPassantDetails.Y + 1;
-                        int X = enPassantDetails.X;                    
-                        if (Y < 8 && board[Y][X] == null)
-                        {
-                            int value = PieceValueColor(pieceStateMapping[enPassantDetails.Target]);
-                            AIMoveDetails moveDetails = new AIMoveDetails(y, x, Y, X, board[y][x], board[Y][X], AIMoveType.moveType.EnPassant, enPassantDetails, null);
-                            moveDetails.SetPieceToBoard(board);
-                            ChessGame.pieceName[] allPieces = ReturnAllPromotedPieces(Y, turn, movesCount);
-                            int totalBoardStateCurrent = currentBoardState + value;
-                            foreach (ChessGame.pieceName currPiece in allPieces)
-                            {
-                                PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
-                                int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
-                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
-                                AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
-                                if (aiPruning != null) return aiPruning;
-                            }
-                            moveDetails.RevertBoardToOriginalState(board);
-                        }
-                    }
-                }
-                if (y + 2 < 8 && y == 1 && board[y + 1][x] == null && board[y + 2][x] == null) // white pawn moves 2 squares south to empty square 
-                {
-                    int Y = y + 2;
+                    int Y = y - 2;
                     int X = x;
                     AIMoveDetails moveDetails = new AIMoveDetails(y, x, Y, X, board[y][x], board[Y][X]);
                     moveDetails.SetPieceToBoard(board);
@@ -252,7 +174,37 @@ namespace Chess.AIMove
                     }
                     moveDetails.RevertBoardToOriginalState(board);
                 }
-
+                // white pawn enPassant
+                if (enPassantDetails != null && enPassantDetails.Y == y && (enPassantDetails.X == x - 1 || enPassantDetails.X == x + 1))
+                {
+                    PieceStateDetails enPassantTarget = pieceStateMapping[enPassantDetails.Target];
+                    if (enPassantTarget.PieceColor == ChessGame.pieceColor.Black && enPassantTarget.PieceName == ChessGame.pieceName.Pawn)
+                    {
+                        int Y = enPassantDetails.Y - 1;
+                        int X = enPassantDetails.X;
+                        if (Y >= 0 && board[Y][X] == null)
+                        {
+                            int value = PieceValueColor(pieceStateMapping[enPassantDetails.Target]);
+                            AIMoveDetails moveDetails = new AIMoveDetails(y, x, Y, X, board[y][x], board[Y][X], AIMoveType.moveType.EnPassant, enPassantDetails, null);
+                            moveDetails.SetPieceToBoard(board);
+                            board[enPassantDetails.Y][enPassantDetails.X] = null;
+                            ChessGame.pieceName[] allPieces = ReturnAllPromotedPieces(Y, turn, movesCount);
+                            int totalBoardStateCurrent = currentBoardState + value;
+                            foreach (ChessGame.pieceName currPiece in allPieces)
+                            {
+                                PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
+                                int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
+                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                                AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                                if (aiPruning != null) return aiPruning;
+                            }
+                            moveDetails.RevertBoardToOriginalState(board);
+                        }
+                    }
+                }
+            }
+            else // black pawn move
+            {
                 if (y + 1 < 8)
                 {
                     if (board[y + 1][x] == null) // black pawn moving 1 square south to empty square
@@ -313,6 +265,51 @@ namespace Chess.AIMove
                             if (aiPruning != null) return aiPruning;
                         }
                         moveDetails.RevertBoardToOriginalState(board);
+                    }
+                }
+                if (y + 2 < 8 && y == 1 && board[y + 1][x] == null && board[y + 2][x] == null) // white pawn moves 2 squares south to empty square 
+                {
+                    int Y = y + 2;
+                    int X = x;
+                    AIMoveDetails moveDetails = new AIMoveDetails(y, x, Y, X, board[y][x], board[Y][X]);
+                    moveDetails.SetPieceToBoard(board);
+                    ChessGame.pieceName[] allPieces = ReturnAllPromotedPieces(Y, turn, movesCount);
+                    EnPassantDetails enPassantable = new EnPassantDetails(Y, X, piece);
+                    foreach (ChessGame.pieceName currPiece in allPieces)
+                    {
+                        PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
+                        int totalBoardStatePromoted = currentBoardState + PromotedPieceValue(currPiece, promotedPiece);
+                        ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                        AIPruning aiPruning = ConfirmNodeRoute(board, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo, true, enPassantable);
+                        if (aiPruning != null) return aiPruning;
+                    }
+                    moveDetails.RevertBoardToOriginalState(board);
+                }
+                // black pawn enPassant
+                if (enPassantDetails != null && enPassantDetails.Y == y && (enPassantDetails.X == x - 1 || enPassantDetails.X == x + 1))
+                {
+                    PieceStateDetails enPassantTarget = pieceStateMapping[enPassantDetails.Target];
+                    if (enPassantTarget.PieceColor == ChessGame.pieceColor.White && enPassantTarget.PieceName == ChessGame.pieceName.Pawn)
+                    {
+                        int Y = enPassantDetails.Y + 1;
+                        int X = enPassantDetails.X;                    
+                        if (Y < 8 && board[Y][X] == null)
+                        {
+                            int value = PieceValueColor(pieceStateMapping[enPassantDetails.Target]);
+                            AIMoveDetails moveDetails = new AIMoveDetails(y, x, Y, X, board[y][x], board[Y][X], AIMoveType.moveType.EnPassant, enPassantDetails, null);
+                            moveDetails.SetPieceToBoard(board);
+                            ChessGame.pieceName[] allPieces = ReturnAllPromotedPieces(Y, turn, movesCount);
+                            int totalBoardStateCurrent = currentBoardState + value;
+                            foreach (ChessGame.pieceName currPiece in allPieces)
+                            {
+                                PieceStateDetails promotedPiece = pieceMappingDetails.PromotePiece(currPiece);
+                                int totalBoardStatePromoted = totalBoardStateCurrent + PromotedPieceValue(currPiece, promotedPiece);
+                                ChessGame.pieceName promptedTo = currPiece != ChessGame.pieceName.Pawn ? currPiece : ChessGame.pieceName.None;
+                                AIPruning aiPruning = ConfirmNodeRouteEat(board, value, y, x, Y, X, totalBoardStatePromoted, turn, movesLimit, pieceStateMapping, moveDetails, pieceMappingDetails, null, promptedTo);
+                                if (aiPruning != null) return aiPruning;
+                            }
+                            moveDetails.RevertBoardToOriginalState(board);
+                        }
                     }
                 }
             }
