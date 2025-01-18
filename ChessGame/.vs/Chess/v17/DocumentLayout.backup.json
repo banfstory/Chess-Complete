@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|c:\\users\\denis\\documents\\github\\chess-complete\\chessgame\\chess\\aimove\\ai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|solutionrelative:chess\\aimove\\ai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|c:\\users\\denis\\documents\\github\\chess-complete\\chessgame\\chess\\aimove\\squarepoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|solutionrelative:chess\\aimove\\squarepoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AI.cs",
-              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\AIMove\\AI.cs",
-              "RelativeDocumentMoniker": "Chess\\AIMove\\AI.cs",
-              "ToolTip": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\AIMove\\AI.cs",
-              "RelativeToolTip": "Chess\\AIMove\\AI.cs",
-              "ViewState": "AgIAAAkBAAAAAAAAAADwvxsBAAAgAAAAAAAAAA==",
+              "Title": "SquarePoints.cs",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\AIMove\\SquarePoints.cs",
+              "RelativeDocumentMoniker": "Chess\\AIMove\\SquarePoints.cs",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\AIMove\\SquarePoints.cs",
+              "RelativeToolTip": "Chess\\AIMove\\SquarePoints.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-17T15:09:10.501Z",
+              "WhenOpened": "2025-01-18T01:04:56.512Z",
               "EditorCaption": ""
             }
           ]
