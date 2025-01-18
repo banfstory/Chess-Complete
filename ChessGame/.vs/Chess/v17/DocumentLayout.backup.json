@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|c:\\users\\denis\\documents\\github\\chess-complete\\chessgame\\chess\\aimove\\squarepoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|solutionrelative:chess\\aimove\\squarepoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|c:\\users\\denis\\documents\\github\\chess-complete\\chessgame\\chess\\chessgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|solutionrelative:chess\\chessgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|c:\\users\\denis\\documents\\github\\chess-complete\\chessgame\\chess\\chessgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|solutionrelative:chess\\chessgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|c:\\users\\denis\\documents\\github\\chess-complete\\chessgame\\chess\\testboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|solutionrelative:chess\\testboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|c:\\users\\denis\\documents\\github\\chess-complete\\chessgame\\chess\\aimove\\ai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E56948C6-1C7F-45ED-8C0B-72F74816B04E}|Chess\\Chess.csproj|solutionrelative:chess\\aimove\\ai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +26,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SquarePoints.cs",
-              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\AIMove\\SquarePoints.cs",
-              "RelativeDocumentMoniker": "Chess\\AIMove\\SquarePoints.cs",
-              "ToolTip": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\AIMove\\SquarePoints.cs",
-              "RelativeToolTip": "Chess\\AIMove\\SquarePoints.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAsAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "AI.cs",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\AIMove\\AI.cs",
+              "RelativeDocumentMoniker": "Chess\\AIMove\\AI.cs",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\AIMove\\AI.cs",
+              "RelativeToolTip": "Chess\\AIMove\\AI.cs",
+              "ViewState": "AgIAAM8CAAAAAAAAAAAiwOcCAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T01:04:56.512Z",
+              "WhenOpened": "2025-01-18T06:25:29.927Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ChessGame.cs",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\ChessGame.cs",
+              "RelativeDocumentMoniker": "Chess\\ChessGame.cs",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\ChessGame.cs",
+              "RelativeToolTip": "Chess\\ChessGame.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAiwC0AAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T06:21:59.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ChessGame.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\ChessGame.cs",
+              "RelativeDocumentMoniker": "Chess\\ChessGame.cs",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\ChessGame.cs [Design]",
+              "RelativeToolTip": "Chess\\ChessGame.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T06:21:57.204Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TestBoard.cs",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\TestBoard.cs",
+              "RelativeDocumentMoniker": "Chess\\TestBoard.cs",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\GitHub\\Chess-Complete\\ChessGame\\Chess\\TestBoard.cs",
+              "RelativeToolTip": "Chess\\TestBoard.cs",
+              "ViewState": "AgIAAH4AAAAAAAAAAAAiwJcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T06:21:30.483Z",
               "EditorCaption": ""
             }
           ]

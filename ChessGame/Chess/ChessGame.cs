@@ -43,7 +43,7 @@ namespace Chess
             InitializeHighlightBoard();
             /* For testing different board positions */
             //TestBoard testBoard = new TestBoard(board, this);
-            //testBoard.selectBoardChoice("TestAIEnPassant", ChessGame.Opponent.AI, false, ChessGame.AIColor.White, 4);
+            //testBoard.selectBoardChoice("TestAIPromote", ChessGame.Opponent.AI, false, ChessGame.AIColor.White, 4);
         }
 
         private void InitializeHighlightBoard() 

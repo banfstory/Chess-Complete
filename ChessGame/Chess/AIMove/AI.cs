@@ -735,12 +735,15 @@ namespace Chess.AIMove
         {
             if ((turn && Y == 0) || (!turn && Y == 7))
             {
+                /*
                 // for the first move made by the AI it will check for stalemate and checkmate where choosing a rook or bishop over a queen might be desirable to not cause a stalemate
                 if (movesCount == 0)
                 {
                     return new ChessGame.pieceName[] { ChessGame.pieceName.Queen, ChessGame.pieceName.Rook, ChessGame.pieceName.Bishop, ChessGame.pieceName.Knight };
                 }
                 return new ChessGame.pieceName[] { ChessGame.pieceName.Queen, ChessGame.pieceName.Knight };
+                */
+                return new ChessGame.pieceName[] { ChessGame.pieceName.Queen };
             }
             return new ChessGame.pieceName[] { ChessGame.pieceName.Pawn };
         }
