@@ -15,4 +15,5 @@ To access the executable file and play the chess game directly, go to the path: 
 * Description: The chess icon is used in this project came from another source.
 * Source URL: https://www.iconarchive.com/show/papirus-apps-icons-by-papirus-team/chess-icon.html
 * Author: Papirus Dev Team
+* Image Project Path: ChessGame/Chess/Resources
 
