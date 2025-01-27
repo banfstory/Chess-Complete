@@ -40,7 +40,6 @@ namespace Chess
             InitializeComponent();
             InitializeChessPiecesDictionary();
             ResetGame();
-            InitializeHighlightBoard();
             /* For testing different board positions */
             //TestBoard testBoard = new TestBoard(board, this);
             //testBoard.selectBoardChoice("TestAIPromote", ChessGame.Opponent.AI, false, ChessGame.AIColor.White, 4);
@@ -340,6 +339,7 @@ namespace Chess
         public void ResetGame() // reset chess game
         {
             setPieceStateMapping();
+            InitializeHighlightBoard();
             resetHighlightedPieces();
             RemoveHighlightLastMove();
             History = new History();
