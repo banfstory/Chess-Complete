@@ -5,15 +5,21 @@ The chess game is built in C# with the .NET framework (Windows Forms App), the g
 To access the code, go to the path: ChessGame (folder) > Chess.sln.
 To access the executable file and play the chess game directly, go to the path: ChessGame (folder) > Chess(folder) > obj (folder) > Debug (folder) > Chess (.exe)
 
-## Reference
-### Chess Images
-* Description: The chess pieces and chess board images is used in this project came from another source.
+# Reference
+
+## Chess Images
+The chess pieces and chess board images are used in this project came from another source.
+
+### Original Source
+* Source URL: https://en.wikipedia.org/wiki/Rules_of_chess
+* Author: Wikipedia
+
+### Other Source
 * Source URL: https://github.com/melvic-ybanez/my_chessmate
 * Author: Melvic Ybanez
 
-### Chess Icon
+## Chess Icon
 * Description: The chess icon is used in this project came from another source.
 * Source URL: https://www.iconarchive.com/show/papirus-apps-icons-by-papirus-team/chess-icon.html
 * Author: Papirus Dev Team
 * Image Project Path: ChessGame/Chess/Resources/Papirus-Team-Papirus-Apps-Chess.ico
-
