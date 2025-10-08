@@ -13,11 +13,12 @@ A chess game built in C# with .NET Framework (Windows Forms App). Supports Playe
 * C# (.NET Framework, Windows Forms)
 
 ### Getting Started:
-1. Run from source:
-* Open ChessGame/Chess.sln in Visual Studio.
-* Build and run the solution.
-2. Run executable directly:
-* Go to ChessGame/Chess/obj/Debug/Chess.exe and launch the game.
+1. **Run from source**
+   - Open `ChessGame/Chess.sln` in Visual Studio.
+   - Build and run the solution.
+
+2. **Run executable directly**
+   - Go to `ChessGame/Chess/obj/Debug/Chess.exe` and launch the game.
 
 ### Optional:
 Explore the AI logic in the folder: ChessGame/Chess/AIMove to see the Minimax implementation and modular OOP design.
