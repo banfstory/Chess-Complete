@@ -21,7 +21,7 @@ A chess game built in C# with .NET Framework (Windows Forms App). Supports Playe
    - Go to `ChessGame/Chess/obj/Debug/Chess.exe` and launch the game.
 
 ### Optional:
-Explore the AI logic in the folder: ChessGame/Chess/AIMove to see the Minimax implementation and modular OOP design.
+Explore the AI logic in the folder: `ChessGame/Chess/AIMove` to see the Minimax implementation.
 
 # Reference
 
